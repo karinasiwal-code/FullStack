@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Product List Filter</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+    }
+    .product-container {
+      border: 1px solid black;
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+    h2 {
+      margin-top: 0;
+    }
+    select {
+      margin-bottom: 20px;
+      padding: 5px;
+    }
+    .product {
+      border: 1px solid #ddd;
+      padding: 10px;
+      margin: 5px 0;
+      border-radius: 5px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="product-container">
+    <h2>Product List</h2>
+    <label for="category">Filter by Category: </label>
+    <select id="category" onchange="filterProducts()">
+      <option value="All">All</option>
+      <option value="Clothing">Clothing</option>
+      <option value="Electronics">Electronics</option>
+      <option value="Books">Books</option>
+    </select>
+
+    <div id="product-list"></div>
+  </div>
+
+  <script>
+    const products = [
+      { name: "T-Shirt", category: "Clothing" },
+      { name: "Jeans", category: "Clothing" },
+      { name: "Headphones", category: "Electronics" },
+      { name: "Smartphone", category: "Electronics" },
+      { name: "Novel", category: "Books" },
+      { name: "Cookbook", category: "Books" }
+    ];
+
+    function displayProducts(items) {
+      const list = document.getElementById("product-list");
+      list.innerHTML = "";
+      items.forEach(product => {
+        const div = document.createElement("div");
+        div.className = "product";
+        div.textContent = product.name;
+        list.appendChild(div);
+      });
+    }
+
+    function filterProducts() {
+      const category = document.getElementById("category").value;
+      if (category === "All") {
+        displayProducts(products);
+      } else {
+        const filtered = products.filter(p => p.category === category);
+        displayProducts(filtered);
+      }
+    }
+
+    // Show all products initially
+    displayProducts(products);
+  </script>
+
+</body>
+</html>
