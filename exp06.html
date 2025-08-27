@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SVG Drawing Tool</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin-top: 20px;
+    }
+    svg {
+      border: 2px solid black;
+      background-color: #f9f9f9;
+      cursor: crosshair;
+    }
+  </style>
+</head>
+<body>
+  <h2>SVG Drawing Tool</h2>
+  <svg id="drawingArea" width="500" height="300"></svg>
+
+  <script>
+    const svg = document.getElementById("drawingArea");
+    let drawing = false;
+    let currentPath = null;
+
+    // Start drawing
+    svg.addEventListener("mousedown", (e) => {
+      drawing = true;
+      const x = e.offsetX;
+      const y = e.offsetY;
+
+      // Create a new path
+      currentPath = document.createElementNS("http://www.w3.org/2000/svg", "path");
+      currentPath.setAttribute("stroke", "blue");
+      currentPath.setAttribute("fill", "none");
+      currentPath.setAttribute("stroke-width", "2");
+      currentPath.setAttribute("d", `M ${x} ${y}`);
+      svg.appendChild(currentPath);
+    });
+
+    // Continue drawing
+    svg.addEventListener("mousemove", (e) => {
+      if (!drawing) return;
+      const x = e.offsetX;
+      const y = e.offsetY;
+
+      let d = currentPath.getAttribute("d");
+      currentPath.setAttribute("d", d + ` L ${x} ${y}`);
+    });
+
+    // Stop drawing
+    svg.addEventListener("mouseup", () => {
+      drawing = false;
+      currentPath = null;
+    });
+
+    svg.addEventListener("mouseleave", () => {
+      drawing = false;
+      currentPath = null;
+    });
+  </script>
+</body>
+</html>
